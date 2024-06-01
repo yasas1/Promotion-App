@@ -1,0 +1,18 @@
+spring:
+  application:
+    name: promotion-service
+  r2dbc:
+    url: r2dbc:postgresql://localhost:5432/promotion
+    username: postgres
+    password: password
+#  security:
+#    user:
+#      name: user
+#      password: password
+
+
+server:
+  port: 8001
+  error:
+    include-message: always
+    include-binding-errors: always
