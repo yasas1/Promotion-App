@@ -2,6 +2,7 @@ package com.promotionservice.domain.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -23,8 +24,9 @@ public class ShopDto {
     @NotEmpty
     @Size(min = 2, message = "Name should have at least 2 characters")
     private String name;
-    @Column(value = "type")
-    private String type;
+    @NotEmpty
+    @NotNull
+    private Integer type;
     private boolean isVerified;
     private String coverImage;
     private Long createdByUserId;

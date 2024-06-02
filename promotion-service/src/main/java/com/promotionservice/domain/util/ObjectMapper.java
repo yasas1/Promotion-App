@@ -22,7 +22,7 @@ public class ObjectMapper {
                 .build();
     }
 
-    public static UserDto shopperToUserDto(User user) {
+    public static UserDto userToUserDto(User user) {
         return UserDto.builder()
                 .id(user.getId())
                 .email(user.getEmail())
@@ -52,7 +52,7 @@ public class ObjectMapper {
                 .email(shop.getEmail())
                 .name(shop.getName())
                 .type(shop.getType())
-                .isVerified(false)
+                .isVerified(shop.isVerified())
                 .coverImage(shop.getCoverImage())
                 .createdByUserId(shop.getCreatedByUserId())
                 .createdDateTime(System.currentTimeMillis())

@@ -12,7 +12,7 @@ import org.springframework.data.relational.core.mapping.Table;
 @AllArgsConstructor
 @Builder
 @Data
-@Table(name = "public.Shop")
+@Table(name = "public.shop")
 public class Shop {
 
     @Id
@@ -22,7 +22,7 @@ public class Shop {
     @Column(value = "name")
     private String name;
     @Column(value = "type")
-    private String type;
+    private Integer type;
     @Column(value = "is_verified")
     private boolean isVerified;
     @Column(value = "cover_image")

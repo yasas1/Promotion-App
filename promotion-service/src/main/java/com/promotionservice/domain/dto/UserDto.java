@@ -30,7 +30,7 @@ public class UserDto {
     @Size(min = 2, message = "Last name should have at least 2 characters")
     private String lastName;
     @NotNull
-    @UserTypeSubset(anyOf = {UserType.SHOPPER, UserType.SHOP})
+    @UserTypeSubset(anyOf = {UserType.SHOPPER, UserType.SHOP_ADMIN})
     private UserType userType;
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @NotEmpty
