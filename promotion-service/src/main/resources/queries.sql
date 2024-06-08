@@ -15,6 +15,10 @@ CREATE TABLE public.user
     PRIMARY KEY (id)
 );
 
+INSERT INTO public.user(email, firstName, lastName, usertype, password, is_verified, created_date_time)
+VALUES ('admin@promotion.com', 'Admin', 'User', 'ADMIN', '$2a$10$UPbDQjMqJ55eu6xvUgVRiueGA.ba8Q.ckPc2Q1NKxm7dlZKIgJ59e', true, 1717858075000);
+-- Admin1122
+
 CREATE TABLE public.shop_category
 (
     id   bigserial    NOT NULL,
@@ -71,3 +75,19 @@ CREATE TABLE public.shop_branch
     PRIMARY KEY (id),
     FOREIGN KEY (shop_id) REFERENCES public.shop (id)
 );
+
+-- examples for geom
+SELECT * FROM public.geofence
+where
+  and tenantID = 'id-1dcec63e-9634-40a6-b80f-b913173c2bee'
+  and
+    ST_DWithin(
+            geom,
+            ST_GeomFromText('POINT(19.88071201520976 12.88061201520976)'),
+            10
+    );
+SELECT ST_AsText(ST_LongestLine( geom, geom)) AS llinewkt,
+       ST_MaxDistance(geom, geom) AS max_dist,
+       ST_Length(ST_LongestLine(geom, geom)) AS lenll,
+       ST_AsText(ST_Centroid(geom)) as centroid
+FROM public.geofence;

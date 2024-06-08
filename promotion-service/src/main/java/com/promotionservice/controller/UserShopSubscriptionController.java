@@ -15,7 +15,7 @@ import reactor.core.publisher.Mono;
 
 import java.util.List;
 
-@PreAuthorize("hasRole('SHOPPER')")
+@PreAuthorize("hasAuthority('SHOPPER')")
 @AllArgsConstructor
 @RequestMapping("/promotion-service/v1/user/{userId}/shop/subscription")
 @RestController
@@ -23,7 +23,7 @@ public class UserShopSubscriptionController {
     private final UserShopSubscriptionService userShopSubscriptionService;
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public Mono<ResponseEntity<String>> createShopper(@PathVariable Long userId, @Valid @RequestBody UserShopSubscriptionDto userShopSubscriptionDto) {
+    public Mono<ResponseEntity<String>> createUserShopSubscription(@PathVariable Long userId, @Valid @RequestBody UserShopSubscriptionDto userShopSubscriptionDto) {
         userShopSubscriptionDto.setUserId(userId);
         return this.userShopSubscriptionService.createUserShopSubscription(userShopSubscriptionDto)
                 .map(subscription -> new ResponseEntity<>("OK", HttpStatus.CREATED));

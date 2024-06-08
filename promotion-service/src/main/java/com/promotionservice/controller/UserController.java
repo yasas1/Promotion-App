@@ -22,26 +22,26 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping(path = "/register",consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public Mono<ResponseEntity<UserDto>> createShopper(@Valid @RequestBody UserDto shopperDto) {
-        return this.userService.createUser(shopperDto)
+    public Mono<ResponseEntity<UserDto>> createShopper(@Valid @RequestBody UserDto userDto) {
+        return this.userService.createUser(userDto)
                 .map(shopper -> new ResponseEntity<>(ObjectMapper.userToUserDto(shopper), HttpStatus.CREATED));
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN','SHOP_ADMIN','SHOPPER')")
+    @PreAuthorize("hasAnyAuthority('ADMIN','SHOP_ADMIN','SHOPPER')")
     @PutMapping(path = "/{userId}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public Mono<ResponseEntity<UserDto>> updateShopper(@PathVariable Long userId, @Valid @RequestBody UserDto userDto) {
         return this.userService.updateUser(userId, userDto)
                 .map(shopper -> new ResponseEntity<>(ObjectMapper.userToUserDto(shopper), HttpStatus.OK));
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN','SHOP_ADMIN','SHOPPER')")
+    @PreAuthorize("hasAnyAuthority('ADMIN','SHOP_ADMIN','SHOPPER')")
     @GetMapping(path = "/{userId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Mono<ResponseEntity<UserDto>> getShopperById(@PathVariable Long shopperId) {
         return this.userService.getUserById(shopperId)
                 .map(shopper -> new ResponseEntity<>(ObjectMapper.userToUserDto(shopper), HttpStatus.OK));
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public Mono<ResponseEntity<ResultSetResponse<UserDto>>> getAllShoppers(@RequestParam(required = false, defaultValue = "0") int pageNumber,
                                                                            @RequestParam(required = false, defaultValue = "20") int pageSize) {
@@ -52,7 +52,7 @@ public class UserController {
                         HttpStatus.OK));
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @DeleteMapping(path = "/{userId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Mono<ResponseEntity<HttpStatusCode>> deleteShopperById(@PathVariable Long userId) {
         return this.userService.deleteUserById(userId)

@@ -1,14 +1,16 @@
 package com.promotionservice.domain.dto;
 
+import com.promotionservice.domain.entity.ShopBranch;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.relational.core.mapping.Column;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -24,11 +26,12 @@ public class ShopDto {
     @NotEmpty
     @Size(min = 2, message = "Name should have at least 2 characters")
     private String name;
-    @NotEmpty
-    @NotNull
-    private Integer type;
+    private Long type;
     private boolean isVerified;
     private String coverImage;
     private Long createdByUserId;
     private Long createdDateTime;
+
+    @Builder.Default
+    private List<ShopBranchDto> branches = new ArrayList<>();
 }

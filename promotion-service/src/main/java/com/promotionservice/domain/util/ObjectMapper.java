@@ -1,11 +1,15 @@
 package com.promotionservice.domain.util;
 
+import com.promotionservice.domain.dto.ShopBranchDto;
 import com.promotionservice.domain.dto.ShopDto;
 import com.promotionservice.domain.dto.UserDto;
 import com.promotionservice.domain.dto.UserShopSubscriptionDto;
 import com.promotionservice.domain.entity.Shop;
+import com.promotionservice.domain.entity.ShopBranch;
 import com.promotionservice.domain.entity.User;
 import com.promotionservice.domain.entity.UserShopSubscription;
+
+import java.util.Objects;
 
 public class ObjectMapper {
     private ObjectMapper() {
@@ -56,6 +60,9 @@ public class ObjectMapper {
                 .coverImage(shop.getCoverImage())
                 .createdByUserId(shop.getCreatedByUserId())
                 .createdDateTime(System.currentTimeMillis())
+                .branches(shop.getBranches().stream()
+                        .map(ObjectMapper::shopBranchToShopBranchDto)
+                        .toList())
                 .build();
     }
 
@@ -64,6 +71,31 @@ public class ObjectMapper {
                 .userId(userShopSubscriptionDto.getUserId())
                 .shopId(userShopSubscriptionDto.getShopId())
                 .createdDateTime(System.currentTimeMillis())
+                .build();
+    }
+
+    public static ShopBranch shopBranchDtoToShop(ShopBranchDto shopBranchDto) {
+        return ShopBranch.builder()
+                .name(shopBranchDto.getName())
+                .address(shopBranchDto.getAddress())
+                .phone1(shopBranchDto.getPhone1())
+                .phone2(shopBranchDto.getPhone2())
+                .latitude(shopBranchDto.getLatitude())
+                .longitude(shopBranchDto.getLongitude())
+                .shopId(shopBranchDto.getShopId())
+                .build();
+    }
+
+    public static ShopBranchDto shopBranchToShopBranchDto(ShopBranch shopBranch) {
+        return ShopBranchDto.builder()
+                .id(shopBranch.getId())
+                .name(shopBranch.getName())
+                .address(shopBranch.getAddress())
+                .phone1(shopBranch.getPhone1())
+                .phone2(shopBranch.getPhone2())
+                .latitude(shopBranch.getLatitude())
+                .longitude(shopBranch.getLongitude())
+                .shopId(shopBranch.getShopId())
                 .build();
     }
 

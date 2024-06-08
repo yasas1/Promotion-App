@@ -1,8 +1,11 @@
 package com.promotionservice.service.impl;
 
+import com.promotionservice.domain.dto.ShopBranchDto;
 import com.promotionservice.domain.dto.ShopDto;
 import com.promotionservice.domain.entity.Shop;
+import com.promotionservice.domain.entity.ShopBranch;
 import com.promotionservice.domain.util.ObjectMapper;
+import com.promotionservice.repository.ShopBranchCustomRepository;
 import com.promotionservice.repository.ShopRepository;
 import com.promotionservice.service.ShopService;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +27,7 @@ import java.util.List;
 public class ShopServiceImpl implements ShopService {
 
     private final ShopRepository shopRepository;
+    private final ShopBranchCustomRepository shopBranchRepository;
 
     @Override
     public Mono<Shop> createShop(ShopDto shopDto) {
@@ -60,6 +64,13 @@ public class ShopServiceImpl implements ShopService {
                 .doOnError(Throwable::printStackTrace);
     }
 
+    @Override
+    public Mono<Shop> getShopWithBranchesByShopId(Long id) {
+        return this.shopBranchRepository.findShopWithBranchesByShopId(id)
+                .switchIfEmpty(Mono.error(new ResponseStatusException(HttpStatus.NOT_FOUND, "Shop not found")))
+                .doOnError(Throwable::printStackTrace);
+    }
+
 
     @Override
     public Mono<Page<Shop>> getAllShops(int pageNumber, int pageSize) {
@@ -73,5 +84,11 @@ public class ShopServiceImpl implements ShopService {
     @Override
     public Flux<Shop> getAllShopsByIdIn(List<Long> ids) {
         return this.shopRepository.findAllByIdIn(ids);
+    }
+
+
+    @Override
+    public Mono<ShopBranch> createShopBranch(ShopBranchDto shopBranchDto) {
+        return this.shopBranchRepository.saveShopBranch(ObjectMapper.shopBranchDtoToShop(shopBranchDto));
     }
 }

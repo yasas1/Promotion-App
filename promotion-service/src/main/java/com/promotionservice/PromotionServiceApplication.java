@@ -10,6 +10,5 @@ public class PromotionServiceApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(PromotionServiceApplication.class, args);
-		System.out.println("Admin1122");
 	}
 }
