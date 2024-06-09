@@ -86,6 +86,29 @@ CREATE TABLE public.user_prefer_category
     FOREIGN KEY (category_id) REFERENCES public.shop_category (id)
 );
 
+CREATE TABLE public.product_category
+(
+    id            bigserial    NOT NULL,
+    name          varchar(250) NOT NULL,
+    description   varchar(250),
+    shop_id       bigint       NOT NULL,
+    PRIMARY KEY (id),
+    FOREIGN KEY (shop_id) REFERENCES public.shop (id)
+);
+
+CREATE TABLE public.product
+(
+    id                  bigserial    NOT NULL,
+    name                varchar(250) NOT NULL,
+    description         varchar(250),
+    image               text,
+    product_category_id bigint       NOT NULL,
+    shop_id             bigint       NOT NULL,
+    PRIMARY KEY (id),
+    FOREIGN KEY (product_category_id) REFERENCES public.product_category (id),
+    FOREIGN KEY (shop_id) REFERENCES public.shop (id)
+);
+
 -- examples for geom
 SELECT * FROM public.geofence
 where

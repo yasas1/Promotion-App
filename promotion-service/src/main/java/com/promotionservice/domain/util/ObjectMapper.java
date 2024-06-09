@@ -1,13 +1,7 @@
 package com.promotionservice.domain.util;
 
-import com.promotionservice.domain.dto.ShopBranchDto;
-import com.promotionservice.domain.dto.ShopDto;
-import com.promotionservice.domain.dto.UserDto;
-import com.promotionservice.domain.dto.UserShopSubscriptionDto;
-import com.promotionservice.domain.entity.Shop;
-import com.promotionservice.domain.entity.ShopBranch;
-import com.promotionservice.domain.entity.User;
-import com.promotionservice.domain.entity.UserShopSubscription;
+import com.promotionservice.domain.dto.*;
+import com.promotionservice.domain.entity.*;
 
 import java.util.Objects;
 
@@ -96,6 +90,44 @@ public class ObjectMapper {
                 .latitude(shopBranch.getLatitude())
                 .longitude(shopBranch.getLongitude())
                 .shopId(shopBranch.getShopId())
+                .build();
+    }
+
+    public static ProductCategory productCategoryDtoToProductCategory(ProductCategoryDto productCategoryDto) {
+        return ProductCategory.builder()
+                .name(productCategoryDto.getName())
+                .description(productCategoryDto.getDescription())
+                .shopId(productCategoryDto.getShopId())
+                .build();
+    }
+
+    public static ProductCategoryDto productCategoryToProductCategoryDto(ProductCategory productCategory) {
+        return ProductCategoryDto.builder()
+                .id(productCategory.getId())
+                .name(productCategory.getName())
+                .description(productCategory.getDescription())
+                .shopId(productCategory.getShopId())
+                .build();
+    }
+
+    public static Product productDtoToProduct(ProductDto productDto) {
+        return Product.builder()
+                .name(productDto.getName())
+                .description(productDto.getDescription())
+                .image(productDto.getImage())
+                .productCategoryId(productDto.getProductCategoryId())
+                .shopId(productDto.getShopId())
+                .build();
+    }
+
+    public static ProductDto productToProductDto(Product product) {
+        return ProductDto.builder()
+                .id(product.getId())
+                .name(product.getName())
+                .description(product.getDescription())
+                .image(product.getImage())
+                .productCategoryId(product.getProductCategoryId())
+                .shopId(product.getShopId())
                 .build();
     }
 
