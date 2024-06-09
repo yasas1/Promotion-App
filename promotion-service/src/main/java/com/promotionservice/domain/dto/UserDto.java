@@ -2,7 +2,7 @@ package com.promotionservice.domain.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.promotionservice.domain.type.UserType;
-import com.promotionservice.domain.type.UserTypeSubset;
+import com.promotionservice.domain.validator.UserTypeSubset;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;

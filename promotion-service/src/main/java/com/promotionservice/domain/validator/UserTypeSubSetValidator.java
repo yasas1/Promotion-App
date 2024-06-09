@@ -1,5 +1,6 @@
-package com.promotionservice.domain.type;
+package com.promotionservice.domain.validator;
 
+import com.promotionservice.domain.type.UserType;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
