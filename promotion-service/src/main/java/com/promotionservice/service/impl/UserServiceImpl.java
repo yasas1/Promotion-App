@@ -1,8 +1,11 @@
 package com.promotionservice.service.impl;
 
 import com.promotionservice.domain.dto.UserDto;
+import com.promotionservice.domain.dto.UserPreferCategoryDto;
 import com.promotionservice.domain.entity.User;
+import com.promotionservice.domain.entity.UserPreferCategory;
 import com.promotionservice.domain.util.ObjectMapper;
+import com.promotionservice.repository.UserPreferCategoryRepository;
 import com.promotionservice.repository.UserRepository;
 import com.promotionservice.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -11,10 +14,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.ReactiveUserDetailsService;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -29,6 +28,7 @@ public class UserServiceImpl implements UserService {
 
     public static final String USER_NOT_FOUND_ERROR_MSG = "User not found";
     private final UserRepository userRepository;
+    private final UserPreferCategoryRepository userPreferCategoryRepository;
     private final PasswordEncoder passwordEncoder;
     /**
      * @param userDto shopper details
@@ -102,5 +102,31 @@ public class UserServiceImpl implements UserService {
                 .collectList()
                 .zipWith(this.userRepository.count())
                 .map(p -> new PageImpl<>(p.getT1(), pageRequest, p.getT2()));
+    }
+
+    /** User Prefer Category */
+
+    @Override
+    public Mono<UserPreferCategory> createUserPreferCategory(UserPreferCategoryDto userPreferCategoryDto) {
+        return this.userPreferCategoryRepository.findByUserIdAndCategoryId(userPreferCategoryDto.getUserId(), userPreferCategoryDto.getCategoryId())
+                .doOnNext(exists -> log.error("Preference already exists: {}", exists))
+                .flatMap(exists -> Mono.error(new ResponseStatusException(HttpStatus.CONFLICT, "Preference already exists")))
+                .switchIfEmpty(Mono.just(userPreferCategoryDto))
+                .flatMap(s -> this.userPreferCategoryRepository.save(UserPreferCategory.builder().userId(userPreferCategoryDto.getUserId())
+                        .categoryId(userPreferCategoryDto.getCategoryId()).build()))
+                .doOnNext(shopper -> log.info("User Category Preference saved: {}", shopper))
+                .doOnError(Throwable::printStackTrace);
+    }
+
+    @Override
+    public Mono<List<Long>> getUserPreferCategoriesByUserId(Long userId) {
+        return this.userPreferCategoryRepository.findByUserId(userId)
+                .collectList()
+                .map(preference -> preference.stream().map(UserPreferCategory::getCategoryId).toList());
+    }
+
+    @Override
+    public Mono<Void> deleteUserPreferCategoryByUserIdAndCategoryId(Long userId, Long categoryId) {
+        return this.userPreferCategoryRepository.deleteByUserIdAndCategoryId(userId, categoryId);
     }
 }

@@ -22,7 +22,6 @@ import java.util.List;
 @Service
 public class UserShopSubscriptionServiceImpl implements UserShopSubscriptionService {
 
-    private final UserService userService;
     private final ShopService shopService;
     private final UserShopSubscriptionRepository userShopSubscriptionRepository;
 
@@ -30,7 +29,7 @@ public class UserShopSubscriptionServiceImpl implements UserShopSubscriptionServ
     @Override
     public Mono<UserShopSubscription> createUserShopSubscription(UserShopSubscriptionDto userShopSubscriptionDto) {
 
-        return userShopSubscriptionRepository.findByUserIdAndShopId(userShopSubscriptionDto.getUserId(), userShopSubscriptionDto.getShopId())
+        return this.userShopSubscriptionRepository.findByUserIdAndShopId(userShopSubscriptionDto.getUserId(), userShopSubscriptionDto.getShopId())
                 .doOnNext(exists -> log.error("Subscription already exists: {}", exists))
                 .flatMap(exists -> Mono.error(new ResponseStatusException(HttpStatus.CONFLICT, "Subscription already exists")))
                 .switchIfEmpty(Mono.just(userShopSubscriptionDto))
@@ -41,7 +40,7 @@ public class UserShopSubscriptionServiceImpl implements UserShopSubscriptionServ
 
     @Override
     public Mono<List<Shop>> getUserShopSubscriptionByUserId(Long userId) {
-        return userShopSubscriptionRepository.findByUserId(userId)
+        return this.userShopSubscriptionRepository.findByUserId(userId)
                 .collectList()
                 .flatMap(subscriptions -> shopService.getAllShopsByIdIn(subscriptions.stream().map(UserShopSubscription::getShopId).toList())
                                     .collectList());
@@ -50,6 +49,6 @@ public class UserShopSubscriptionServiceImpl implements UserShopSubscriptionServ
 
     @Override
     public Mono<Void> deleteUserShopSubscription(Long userId, Long shopId) {
-        return userShopSubscriptionRepository.deleteByUserIdAndShopId(userId, shopId);
+        return this.userShopSubscriptionRepository.deleteByUserIdAndShopId(userId, shopId);
     }
 }

@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 @Data
-public class UserShopSubscriptionDto {
+public class UserPreferCategoryDto {
     private Long userId;
-    private Long shopId;
+    private Long categoryId;
 }

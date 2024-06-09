@@ -51,16 +51,6 @@ CREATE TABLE public.shop
     FOREIGN KEY (type) REFERENCES public.shop_category (id)
 );
 
-CREATE TABLE public.user_shop_subscription
-(
-    user_id           bigint NOT NULL,
-    shop_id           bigint NOT NULL,
-    created_date_time bigint,
-    PRIMARY KEY (user_id, shop_id),
-    FOREIGN KEY (user_id) REFERENCES public.user (id),
-    FOREIGN KEY (shop_id) REFERENCES public.shop (id)
-);
-
 CREATE TABLE public.shop_branch
 (
     id            bigserial    NOT NULL,
@@ -74,6 +64,26 @@ CREATE TABLE public.shop_branch
     shop_id       bigint       NOT NULL,
     PRIMARY KEY (id),
     FOREIGN KEY (shop_id) REFERENCES public.shop (id)
+);
+
+CREATE TABLE public.user_shop_subscription
+(
+    user_id           bigint NOT NULL,
+    shop_id           bigint NOT NULL,
+    created_date_time bigint,
+    PRIMARY KEY (user_id, shop_id),
+    FOREIGN KEY (user_id) REFERENCES public.user (id),
+    FOREIGN KEY (shop_id) REFERENCES public.shop (id)
+);
+
+CREATE TABLE public.user_prefer_category
+(
+    user_id           bigint NOT NULL,
+    category_id       bigint NOT NULL,
+    created_date_time bigint,
+    PRIMARY KEY (user_id, category_id),
+    FOREIGN KEY (user_id) REFERENCES public.user (id),
+    FOREIGN KEY (category_id) REFERENCES public.shop_category (id)
 );
 
 -- examples for geom
