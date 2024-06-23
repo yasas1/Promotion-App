@@ -30,6 +30,10 @@ public class User {
     private UserType userType;
     @Column(value = "password")
     private String password;
+    @Column(value = "oauth2_provider")
+    private String oauth2Provider;
+    @Column(value = "oauth2_provider_id")
+    private String oauth2ProviderId;
     @Column(value = "is_verified")
     private boolean isVerified;
     @Column(value = "profile_image")

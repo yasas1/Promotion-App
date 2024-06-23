@@ -5,14 +5,27 @@ spring:
     url: r2dbc:postgresql://localhost:5432/promotion
     username: postgres
     password: password
-#  security:
-#    user:
-#      name: user
-#      password: password
-
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: 84766100268-rp4qpn7jogt2rtfa1g0tc1hq5krlipt9.apps.googleusercontent.com
+            client-secret: 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
+            scope: profile, email
+        provider:
+          google:
+            authorization-uri: https://accounts.google.com/o/oauth2/auth
+            token-uri: https://oauth2.googleapis.com/token
+            user-info-uri: https://www.googleapis.com/oauth2/v3/userinfo
+            user-name-attribute: sub
 
 server:
   port: 8001
   error:
     include-message: always
     include-binding-errors: always
+
+logging:
+  level:
+    org.springframework.security: TRACE

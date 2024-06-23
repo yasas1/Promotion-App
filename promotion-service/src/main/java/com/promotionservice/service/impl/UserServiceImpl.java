@@ -47,7 +47,7 @@ public class UserServiceImpl implements UserService {
                     user.setPassword(passwordEncoder.encode(userDto.getPassword()));
                     return this.userRepository.save(user);
                 })
-                .doOnNext(shopper -> log.info("Shopper saved: {}", shopper))
+                .doOnNext(shopper -> log.info("User saved: {}", shopper))
                 .doOnError(Throwable::printStackTrace);
     }
 

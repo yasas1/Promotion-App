@@ -33,9 +33,9 @@ public class UserDto {
     @UserTypeSubset(anyOf = {UserType.SHOPPER, UserType.SHOP_ADMIN})
     private UserType userType;
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @NotEmpty
-    @NotNull
     private String password;
+    private String oauth2Provider;
+    private String oauth2ProviderId;
     private boolean isVerified;
     private String profileImage;
     private Long createdDateTime;

@@ -3,20 +3,23 @@ EXTENSION postgis;
 
 CREATE TABLE public.user
 (
-    id                bigserial    NOT NULL,
-    email             varchar(250) NOT NULL,
-    firstName         varchar(250) NOT NULL,
-    lastName          varchar(250) NOT NULL,
-    usertype          varchar(50)  NOT NULL,
-    password          text,
-    is_verified       boolean,
-    profile_image     text,
-    created_date_time bigint,
+    id                 bigserial    NOT NULL,
+    email              varchar(250) NOT NULL,
+    firstName          varchar(250) NOT NULL,
+    lastName           varchar(250) NOT NULL,
+    usertype           varchar(50)  NOT NULL,
+    password           text,
+    is_verified        boolean,
+    profile_image      text,
+    oauth2_provider    text,
+    oauth2_provider_id text,
+    created_date_time  bigint,
     PRIMARY KEY (id)
 );
 
 INSERT INTO public.user(email, firstName, lastName, usertype, password, is_verified, created_date_time)
-VALUES ('admin@promotion.com', 'Admin', 'User', 'ADMIN', '$2a$10$UPbDQjMqJ55eu6xvUgVRiueGA.ba8Q.ckPc2Q1NKxm7dlZKIgJ59e', true, 1717858075000);
+VALUES ('admin@promotion.com', 'Admin', 'User', 'ADMIN', '$2a$10$UPbDQjMqJ55eu6xvUgVRiueGA.ba8Q.ckPc2Q1NKxm7dlZKIgJ59e', true, 1717858075000),
+       ('ranawaka.y@promotion.com', 'Admin', 'User', 'ADMIN', '$2a$10$UPbDQjMqJ55eu6xvUgVRiueGA.ba8Q.ckPc2Q1NKxm7dlZKIgJ59e', true, 1717858075000);
 -- Admin1122
 
 CREATE TABLE public.shop_category
