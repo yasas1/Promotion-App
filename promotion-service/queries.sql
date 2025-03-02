@@ -122,6 +122,8 @@ where
             ST_GeomFromText('POINT(19.88071201520976 12.88061201520976)'),
             10
     );
+-- https://epsg.io/2100
+-- https://gis.stackexchange.com/questions/133450/st-distance-values-in-kilometers
 SELECT ST_AsText(ST_LongestLine( geom, geom)) AS llinewkt,
        ST_MaxDistance(geom, geom) AS max_dist,
        ST_Length(ST_LongestLine(geom, geom)) AS lenll,

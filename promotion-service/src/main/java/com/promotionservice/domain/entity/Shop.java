@@ -1,10 +1,13 @@
 package com.promotionservice.domain.entity;
 
+import jdk.jfr.Relational;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.ReadOnlyProperty;
+import org.springframework.data.annotation.Transient;
 import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 import reactor.core.publisher.Mono;
@@ -35,10 +38,11 @@ public class Shop {
     private String coverImage;
     @Column(value = "created_by_user_id")
     private Long createdByUserId;
-    @Column(value = "c")
+    @Column(value = "created_date_time")
     private Long createdDateTime;
 
     @Builder.Default
+    @Transient
     private List<ShopBranch> branches = new ArrayList<>();
 
     public static Mono<Shop> fromRows(List<Map<String, Object>> rows) {
